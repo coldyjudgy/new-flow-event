@@ -10,15 +10,25 @@ const getEvents = async (params) => {
   const { contractAddress, contractName, eventName } = params;
   const eventType = `A.${contractAddress}.${contractName}.${eventName}`;
 
-  const { from = 0, to } = params;
+  let { from = 0, to } = params;
   let toBlock;
   if (to === undefined) {
     // Get latest block
-    const blockResponse = await sdk.send(sdk.build([
+    const blockResponse = await sdk.send(await sdk.build([
       sdk.getLatestBlock()
-    ]).then(sdk.decode)); // ! 변경
+   ]));
+   toBlock = blockResponse.block.height;
 
-    toBlock = blockResponse.latestBlock.height;
+   const SHIFT = 10;
+   const latestBlock = await sdk.send(
+    await sdk.build([sdk.getLatestBlock()]),
+  );
+   const height = latestBlock.block.height - SHIFT;
+    toBlock = height;
+    if (from === 0){
+      from = height;
+    }
+    
   } else {
     toBlock = to;
   }
@@ -53,9 +63,9 @@ const getEvents = async (params) => {
 
 const getHelloEvents = async () => {
   const events = await getEvents({
-    contractName: "HelloWorld",
-    contractAddress: "01cf0e2f2f715450", // note the address is without "0x" prefix
-    eventName: "CustomEvent",
+    contractName: "Market",
+    contractAddress: "c1e4f4f4c4257510", // note the address is without "0x" prefix
+    eventName: "MomentListed",
   });
   console.log({ events });
 };
