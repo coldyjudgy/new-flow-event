@@ -1,0 +1,31 @@
+{
+	"emulators": {
+		"default": {
+			"port": 3569,
+			"serviceAccount": "emulator-account"
+		}
+	},
+	"contracts": {
+		"Hello": "./Hello.cdc"
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7", // flow init 해서 생성된 주소로 변경
+			"key": "fe47ab1f838aecf2dced61c83d918b762b2eff98716a839acb4557271d0f9e07" // flow init 해서 생성된 key로 변경
+		},
+		"admin-account": {
+			"address": "db16a5e14c410280", // 변경
+			"key": "5a92a4f5614f276b6f2ed4d81f01729a3b1d9b44afe71bf46bb10d058b249fb9" // 변경
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"admin-account": ["Hello"]
+		}
+	}
+}
